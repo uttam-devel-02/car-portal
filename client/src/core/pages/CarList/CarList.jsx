@@ -11,39 +11,10 @@ function RawMaterial() {
     // Set Title
     document.title = "Student | Car List";
 
-    var [materialName, setmaterialName] = useState("");
-    var [precio, setprecio] = useState("");
-    var [proveedor, setproveedor] = useState("");
-    var [presentacion, setpresentacion] = useState("");
-    var [cantidad, setcantidad] = useState("");
-    var [unidad, setunidad] = useState("");
-    var [unidadMetrica, setunidadMetrica] = useState("");
-    var [fechaCompra, setfechaCompra] = useState("");
-    var [status, setstatus] = useState(true);
-    var [id, setid] = useState("");
-
-    var [buttonText, setbuttonText] = useState('create');
-    var [showform, setshowform] = useState('hide');
-    var [searchstring, setsearchstring] = useState('');
-    var [UserData, getUserData] = useState(JSON.parse(localStorage.getItem('userDetails')));
     var [MaterialListdata, setMaterialListdata] = useState([]);
 
-    var [eventerr, seteventerr] = useState({})
 
-
-    function resetState() {
-
-        setmaterialName("");
-        setprecio("");
-        setproveedor("");
-        setpresentacion("");
-        setcantidad("");
-        setunidad("");
-        setunidadMetrica("");
-        setfechaCompra("");
-        resetMaterialValidation();
-    }
-
+    //this is for delete data
     function deleteData(Id) {
 
         swal("Do you want to delete Cars ?", {
@@ -66,35 +37,7 @@ function RawMaterial() {
         });
     }
 
-
-    function statusupdate(data) {
-        // console.log(data);
-
-        swal("Do you want to update status ?", {
-            buttons: ['No', 'Yes'],
-        }).then((action) => {
-            // console.log("Process to change status", action);
-
-            if (action == true) {
-
-                let url = config.apiBaseUrl + "raw-material/status-update";
-                axios.post(url, {
-                    condition: {
-                        _id: data._id,
-                        status: data.status == 0 ? 1 : 0
-                    }
-                }).then(function (response) {
-                        // console.log(response, '++', 'update success');
-                        swal("Success!", "Update status successfully.", "success");
-
-                        materialListdata();
-                    })
-            }
-
-        });
-    }
-
-
+    //this is for edit data
     function editData(value) {
         window.location.href = '/car-edit/'+value
     }
@@ -119,112 +62,9 @@ function RawMaterial() {
             })
     }
 
-    function search() {
-        // console.log(searchstring, 'search')
-        let url = config.apiBaseUrl + "datalist";
-        axios.post(url, {
-            condition: {
-                tags: {
-                    $regex: searchstring.toLowerCase()
-                }
-            },
-            limit: 10,
-            skip: 0
-        }).then(function (response) {
-                if (response.data.status == true) {
-                    MaterialListdata = response.data.data;
-                    setMaterialListdata(MaterialListdata);
-                    // console.log(MaterialListdata);
-                }
-            })
-            .catch(function (error) {
-                // console.log(error);
-            })
 
-
-    }
-
-    function reset() {
-        setsearchstring('');
-        MaterialListdata();
-    }
-
-
-    function resetMaterialValidation() {
-        eventerr = {
-            materialNameerr: '',
-            precioerr: '',
-            proveedorerr: '',
-            presentacionerr: '',
-            cantidaderr: '',
-            unidaderr: '',
-            unidadMetricaerr: '',
-            fechaCompraerr: ''
-        }
-        seteventerr(eventerr);
-
-
-    }
-
-
-    function formValidation() {
-
-        let isValid = true;
-        eventerr = {
-            materialNameerr: '',
-            precioerr: '',
-            proveedorerr: '',
-            presentacionerr: '',
-            cantidaderr: '',
-            unidaderr: '',
-            unidadMetricaerr: '',
-            fechaCompraerr: ''
-        }
-
-        if (materialName == '') {
-            eventerr.materialNameerr = 'Material Name is required';
-            isValid = false;
-        }
-        if (precio == '') {
-            eventerr.precioerr = 'Precio is required';
-            isValid = false;
-        }
-        if (proveedor == '') {
-            eventerr.proveedorerr = 'Proveedor is required';
-            isValid = false;
-        }
-        if (presentacion == '') {
-            eventerr.presentacionerr = 'Presentacion is required';
-            isValid = false;
-        }
-
-        if (cantidad == '') {
-            eventerr.cantidaderr = 'Cantidad is required';
-            isValid = false;
-        }
-
-        if (unidad == '') {
-            eventerr.unidaderr = 'Unidad is required';
-            isValid = false;
-        }
-
-
-        if (unidadMetrica == '') {
-            eventerr.unidadMetricaerr = 'Unidad Metrica is required';
-            isValid = false;
-        }
-
-        if (fechaCompra == '') {
-            eventerr.fechaCompraerr = 'Fecha Compra is required';
-            isValid = false;
-        }
-
-        seteventerr(eventerr);
-
-        return isValid;
-    }
-
-
+    //this is for list data after page load
+ 
     useEffect(() => {
         materialListdata();
     }, []);

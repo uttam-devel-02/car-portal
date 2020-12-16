@@ -7,14 +7,14 @@ import moment from 'moment';
 import swal from 'sweetalert';
 import { Header, LeftMenu, Footer } from '../../layouts';
 import { Loader } from '../../loader';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function Car() {
   // Set Title
   document.title = "Student | Car";
 
   const [loader, setloader] = useState(false);
-  const {carId} = useParams()
+  const { carId } = useParams()
 
 
 
@@ -49,7 +49,7 @@ function Car() {
   var [priceerr, setpriceerr] = useState("");
   var [transmissionerr, settransmissionerr] = useState("");
 
-
+  //this is for reset field
   function resetState() {
     setcarnameerr("");
     setmakeserr("");
@@ -64,7 +64,7 @@ function Car() {
     setdrivetrainerr("");
     setpriceerr("");
     settransmissionerr("");
-    
+
     setcarname("");
     setmakes("");
     setmodel("");
@@ -80,13 +80,8 @@ function Car() {
     settransmission("");
   }
 
-  // if(typeof(carId) == 'undefined' ){
-  //   // console.log('car++')
-  //   // resetState();
-  //   // setid('');
-  //   // setbuttonText('Create');
-  // }
 
+  //this is for add data
   function submitUserForm(flag) {
 
     if (flag == 'add') {
@@ -133,12 +128,12 @@ function Car() {
             if (buttonText == 'create') {
               swal("Success!", "Car added successfully.", "success");
               setTimeout(() => {
-                window.location.href='/car-list';
+                window.location.href = '/car-list';
               }, 1000);
             } else {
               swal("Success!", "Car update successfully.", "success");
               setTimeout(() => {
-                window.location.href='/car-list';
+                window.location.href = '/car-list';
               }, 1000);
             }
           } else {
@@ -154,8 +149,9 @@ function Car() {
     }
   }
 
-  function formValidation(value) {
 
+  //this is for valid check
+  function formValidation(value) {
     var carnameerr = {};
     var makeserr = {};
     var modelerr = {};
@@ -201,7 +197,7 @@ function Car() {
       isValid = false;
     }
 
-    if (price.length < 2 ) {
+    if (price.length < 2) {
       priceerr.emailerrmsg = 'Price is required';
       isValid = false;
     }
@@ -247,12 +243,13 @@ function Car() {
     return isValid;
   }
 
+    //this is for list data
   function carListdata() {
     let url = config.apiBaseUrl + "datalist";
 
     axios.post(url, {
       condition: {
-        _id_object:carId
+        _id_object: carId
       },
       limit: 10,
       skip: 0
@@ -282,7 +279,7 @@ function Car() {
 
 
   useEffect(() => {
-    if(typeof carId != 'undefined') {
+    if (typeof carId != 'undefined') {
       carListdata();
     }
   }, []);
@@ -301,15 +298,15 @@ function Car() {
               <div className="col-sm-6">
                 {
                   buttonText == 'create' ?
-                  <h1 className="m-0 text-dark">Create Car</h1>
-                  :
-                  <h1 className="m-0 text-dark">Update Car</h1>
+                    <h1 className="m-0 text-dark">Create Car</h1>
+                    :
+                    <h1 className="m-0 text-dark">Update Car</h1>
 
                 }
               </div>
               <div className="col-sm-6">
                 <ol className="breadcrumb float-sm-right">
-                  
+
                 </ol>
               </div>
             </div>
@@ -321,7 +318,7 @@ function Car() {
             <div className="row">
               <div className="col-md-12">
                 <div className="card card-success">
-          
+
 
                   {
                     <form action="/">
@@ -361,20 +358,20 @@ function Car() {
 
                         <div className="row">
                           {
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <label>Model*</label>
-                                  <input type="text" className="form-control"
-                                    value={model}
-                                    onChange={(e) => setmodel(e.target.value)} placeholder="Model" />
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>Model*</label>
+                                <input type="text" className="form-control"
+                                  value={model}
+                                  onChange={(e) => setmodel(e.target.value)} placeholder="Model" />
 
-                                  {
-                                    Object.keys(modelerr).map((e) => {
-                                      return <p key={e} style={{ color: 'red' }}>{modelerr[e]}</p>
-                                    })
-                                  }
-                                </div>
+                                {
+                                  Object.keys(modelerr).map((e) => {
+                                    return <p key={e} style={{ color: 'red' }}>{modelerr[e]}</p>
+                                  })
+                                }
                               </div>
+                            </div>
                           }
 
                           <div className="col-md-6">
@@ -425,37 +422,37 @@ function Car() {
                         <hr />
 
                         {
-                            <div className="row">
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <label>Exterior Color*</label>
-                                  <input type="text" className="form-control"
-                                    value={exterior}
-                                    onChange={(e) => setexterior(e.target.value)} placeholder="Exterior Color" />
-                                  {
-                                    Object.keys(exteriorerr).map((p) => {
-                                      return <p key={p} style={{ color: 'red' }}>{exteriorerr[p]}</p>
-                                    })
-                                  }
-                                </div>
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>Exterior Color*</label>
+                                <input type="text" className="form-control"
+                                  value={exterior}
+                                  onChange={(e) => setexterior(e.target.value)} placeholder="Exterior Color" />
+                                {
+                                  Object.keys(exteriorerr).map((p) => {
+                                    return <p key={p} style={{ color: 'red' }}>{exteriorerr[p]}</p>
+                                  })
+                                }
                               </div>
-
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <label>Interior Color*</label>
-                                  <input type="text" className="form-control"
-                                    value={interior}
-                                    onChange={(e) => setinterior(e.target.value)}
-                                    placeholder="Interior Color" />
-                                  {
-                                    Object.keys(interiorerr).map((c) => {
-                                      return <p key={c} style={{ color: 'red' }}>{interiorerr[c]}</p>
-                                    })
-                                  }
-                                </div>
-                              </div>
-
                             </div>
+
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>Interior Color*</label>
+                                <input type="text" className="form-control"
+                                  value={interior}
+                                  onChange={(e) => setinterior(e.target.value)}
+                                  placeholder="Interior Color" />
+                                {
+                                  Object.keys(interiorerr).map((c) => {
+                                    return <p key={c} style={{ color: 'red' }}>{interiorerr[c]}</p>
+                                  })
+                                }
+                              </div>
+                            </div>
+
+                          </div>
                         }
                         <div className="row">
                           <div className="col-md-6">
